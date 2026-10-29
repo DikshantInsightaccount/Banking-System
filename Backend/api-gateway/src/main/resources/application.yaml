@@ -1,0 +1,139 @@
+server:
+  port: 9192
+  ssl:
+    key-store: src/main/resources/keystore.p12
+    key-store-password: password
+    key-store-type: PKCS12
+    key-alias: bankingapp
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    inetutils:
+      preferred-networks:
+        - 127
+      ignored-interfaces:
+        - eth.*
+        - docker.*
+        - veth.*
+        - br.*
+
+
+
+
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - "http://localhost:5173"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders:
+                  - "*"
+                allowCredentials: true
+
+
+      routes:
+
+        # AUTH
+        - id: auth-service
+          uri: lb://AUTHSERVICE
+          predicates:
+            - Path=/auth/**
+
+
+        # TRANSACTIONS
+        - id: transaction-service-root
+          uri: lb://TRANSACTIONSERVICE
+          predicates:
+            - Path=/api/transactions
+
+        - id: transaction-service
+          uri: lb://TRANSACTIONSERVICE
+          predicates:
+            - Path=/api/transactions/**
+
+
+        # ACCOUNTS
+        - id: account-service-accounts
+          uri: lb://ACCOUNTSERVICE
+          predicates:
+            - Path=/accounts/**
+
+        - id: account-service-deposits
+          uri: lb://ACCOUNTSERVICE
+          predicates:
+            - Path=/deposits/**
+
+        - id: card-service
+          uri: lb://ACCOUNTSERVICE
+          predicates:
+            - Path=/cards/**
+
+
+        # BILLS
+        - id: bill-service
+          uri: lb://TRANSACTIONSERVICE
+          predicates:
+            - Path=/bills/**
+
+
+        # CUSTOMERS
+        - id: banking-system-customers-root
+          uri: lb://BANKINGSYSTEM
+          predicates:
+            - Path=/api/customers
+
+        - id: banking-system-customers
+          uri: lb://BANKINGSYSTEM
+          predicates:
+            - Path=/api/customers/**
+
+
+        - id: banking-system-employees
+          uri: lb://BANKINGSYSTEM
+          predicates:
+            - Path=/api/employees/**
+
+        # NOTIFICATIONS
+        - id: notification-service
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/notifications/**
+
+
+eureka:
+  instance:
+    prefer-ip-address: false
+    hostname: localhost
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+
+jwt:
+  secret: ${JWT_SECRET:MySuperSecureJWTSecretKeyThatIsAtLeast32Chars}
+  expiration-ms: 3600000
+
+otp:
+  length: 4
+  expiry-seconds: 300
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

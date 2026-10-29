@@ -1,0 +1,1418 @@
+/* =========================================
+   CARDS PAGE
+========================================= */
+
+.cards-page {
+    width: 100%;
+    max-width: 1180px;
+    min-height: 100vh;
+
+    margin: 0 auto;
+    padding: 40px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.cards-page.fade-in {
+    animation: cardsFadeIn 0.45s ease both;
+}
+
+@keyframes cardsFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cards-page .muted {
+    margin-top: 80px;
+
+    color: #64748b;
+
+    font-size: 15px;
+    text-align: center;
+}
+
+
+/* =========================================
+   EXISTING BACK BUTTON
+========================================= */
+
+.cards-page > button:first-child {
+    align-self: flex-start;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.cards-page > button:first-child:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(22, 160, 133, 0.22);
+}
+
+.cards-page > button:first-child:focus-visible {
+    outline: 3px solid rgba(22, 160, 133, 0.25);
+    outline-offset: 3px;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.cards-page .cards-header {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 30px;
+}
+
+.cards-page .cards-header h2 {
+    position: relative;
+
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: clamp(34px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.cards-page .cards-header h2::after {
+    content: "CARD MANAGEMENT";
+
+    display: block;
+
+    margin-top: 8px;
+
+    color: #2563eb;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+
+/* =========================================
+   VIRTUAL CARD WRAPPER
+========================================= */
+
+.cards-page .vcard {
+    position: relative;
+
+    width: min(100%, 520px);
+    height: 310px;
+
+    margin: 0 auto 30px;
+
+    perspective: 1400px;
+
+    cursor: pointer;
+    outline: none;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+.cards-page .vcard:hover {
+    transform: translateY(-6px);
+}
+
+.cards-page .vcard:focus-visible {
+    border-radius: 28px;
+
+    outline: 4px solid rgba(37, 99, 235, 0.2);
+    outline-offset: 5px;
+}
+
+
+/* =========================================
+   FRONT AND BACK CARD FACES
+========================================= */
+
+.cards-page .vcard-face {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 28px;
+
+    color: #ffffff;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    transform-style: preserve-3d;
+
+    box-shadow:
+        0 30px 65px rgba(15, 23, 42, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+    transition:
+        transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1),
+        filter 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.cards-page .vcard:hover .vcard-face {
+    box-shadow:
+        0 38px 75px rgba(15, 23, 42, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+
+/* =========================================
+   DECORATIVE CARD ELEMENTS
+========================================= */
+
+.cards-page .vcard-face::before {
+    content: "";
+
+    position: absolute;
+    top: -120px;
+    right: -100px;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0)
+        );
+
+    pointer-events: none;
+}
+
+.cards-page .vcard-face::after {
+    content: "";
+
+    position: absolute;
+    bottom: -150px;
+    left: -100px;
+
+    width: 320px;
+    height: 320px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(124, 58, 237, 0.36),
+            rgba(124, 58, 237, 0)
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   CARD FRONT
+========================================= */
+
+.cards-page .front {
+    z-index: 2;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a 0%,
+            #172554 35%,
+            #1d4ed8 70%,
+            #7c3aed 100%
+        );
+
+    transform: rotateY(0deg);
+}
+
+
+/* =========================================
+   CARD BACK
+========================================= */
+
+.cards-page .back {
+    z-index: 1;
+
+    background:
+        linear-gradient(
+            140deg,
+            #111827 0%,
+            #1e293b 48%,
+            #312e81 100%
+        );
+
+    transform: rotateY(180deg);
+}
+
+
+/* =========================================
+   FLIP ANIMATION
+========================================= */
+
+.cards-page .vcard.flip .front {
+    transform: rotateY(-180deg);
+}
+
+.cards-page .vcard.flip .back {
+    transform: rotateY(0deg);
+}
+
+
+/* =========================================
+   LOCKED CARD STATE
+========================================= */
+
+.cards-page .vcard-locked {
+    filter: saturate(0.68);
+}
+
+.cards-page .vcard-locked .vcard-face {
+    box-shadow:
+        0 28px 60px rgba(127, 29, 29, 0.2),
+        inset 0 0 0 1px rgba(248, 113, 113, 0.18);
+}
+
+.cards-page .vcard-locked::after {
+    content: "LOCKED";
+
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 20;
+
+    padding: 7px 13px;
+
+    border: 1px solid rgba(254, 202, 202, 0.32);
+    border-radius: 999px;
+
+    background: rgba(127, 29, 29, 0.72);
+    color: #fee2e2;
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+
+/* =========================================
+   CARD TOP
+========================================= */
+
+.cards-page .vcard-top {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.cards-page .brand {
+    display: flex;
+    flex-direction: column;
+}
+
+.cards-page .brand-name {
+    color: #ffffff;
+
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+
+    text-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cards-page .brand-tag {
+    display: block;
+
+    margin-top: 6px;
+
+    color: rgba(255, 255, 255, 0.7);
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+}
+
+
+/* =========================================
+   CHIP
+========================================= */
+
+.cards-page .chip {
+    position: relative;
+
+    width: 62px;
+    height: 46px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(120, 53, 15, 0.22);
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff4b8 0%,
+            #facc15 42%,
+            #d97706 100%
+        );
+
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.72),
+        0 6px 14px rgba(15, 23, 42, 0.18);
+
+    transition: transform 0.3s ease;
+}
+
+.cards-page .vcard:hover .chip {
+    transform: scale(1.05);
+}
+
+.cards-page .chip::before,
+.cards-page .chip::after {
+    content: "";
+
+    position: absolute;
+
+    background: rgba(120, 53, 15, 0.34);
+}
+
+.cards-page .chip::before {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+
+    width: 1px;
+}
+
+.cards-page .chip::after {
+    top: 50%;
+    left: 0;
+    right: 0;
+
+    height: 1px;
+}
+
+
+/* =========================================
+   CARD NUMBER
+========================================= */
+
+.cards-page .vcard-number {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 20px;
+
+    color: #ffffff;
+
+    font-family:
+        "Courier New",
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        monospace;
+
+    font-size: clamp(23px, 4vw, 33px);
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    line-height: 1.2;
+
+    text-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.25);
+}
+
+
+/* =========================================
+   CARD BOTTOM
+========================================= */
+
+.cards-page .vcard-bottom {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 24px;
+}
+
+.cards-page .vcard-bottom .right {
+    text-align: right;
+}
+
+.cards-page .small {
+    color: rgba(255, 255, 255, 0.68);
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+}
+
+.cards-page .strong {
+    margin-top: 5px;
+
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+}
+
+
+/* =========================================
+   CARD HINT
+========================================= */
+
+.cards-page .tap-hint,
+.cards-page .hint {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 12px;
+
+    color: rgba(255, 255, 255, 0.58);
+
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+
+/* =========================================
+   BACK DESIGN
+========================================= */
+
+.cards-page .magstripe {
+    position: relative;
+    z-index: 2;
+
+    width: calc(100% + 60px);
+    height: 56px;
+
+    margin-top: 15px;
+    margin-left: -30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #020617,
+            #111827,
+            #020617
+        );
+
+    box-shadow:
+        0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cards-page .cvv-box {
+    position: relative;
+    z-index: 2;
+
+    min-height: 54px;
+
+    padding: 11px 16px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-radius: 10px;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #ffffff,
+            #ffffff 5px,
+            #f1f5f9 5px,
+            #f1f5f9 6px
+        );
+
+    color: #0f172a;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.14);
+}
+
+.cards-page .cvv-label {
+    color: #475569;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.cards-page .cvv-value {
+    padding: 6px 11px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #0f172a;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.cards-page .cvv-extra {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 18px;
+}
+
+
+/* =========================================
+   QUICK ACTION
+========================================= */
+
+.cards-page .quick-actions {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin: 0 0 30px;
+}
+
+.cards-page .pill {
+    min-width: 170px;
+
+    padding: 12px 24px;
+
+    border: none;
+    border-radius: 999px;
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.cards-page .pill:hover {
+    transform: translateY(-2px);
+}
+
+.cards-page .pill:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.22);
+    outline-offset: 3px;
+}
+
+.cards-page .pill-blue {
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+        );
+
+    box-shadow:
+        0 10px 22px rgba(37, 99, 235, 0.24);
+}
+
+.cards-page .pill-blue:hover {
+    box-shadow:
+        0 14px 28px rgba(37, 99, 235, 0.3);
+}
+
+.cards-page .pill-red {
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #b91c1c
+        );
+
+    box-shadow:
+        0 10px 22px rgba(220, 38, 38, 0.23);
+}
+
+.cards-page .pill-red:hover {
+    box-shadow:
+        0 14px 28px rgba(220, 38, 38, 0.3);
+}
+
+
+/* =========================================
+   USAGE SUMMARY PANEL
+========================================= */
+
+.cards-page .panel {
+    width: 100%;
+    max-width: 920px;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.06);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.cards-page .panel:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.cards-page .panel h3 {
+    margin: 0 0 22px;
+
+    color: #0f172a;
+
+    font-size: 21px;
+    font-weight: 750;
+}
+
+.cards-page .row {
+    min-height: 62px;
+
+    padding: 16px 0;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-bottom: 1px solid #edf2f7;
+
+    color: #475569;
+
+    font-size: 14px;
+}
+
+.cards-page .row:last-child {
+    border-bottom: none;
+}
+
+.cards-page .row > span:first-child {
+    position: relative;
+
+    padding-left: 18px;
+
+    font-weight: 600;
+}
+
+.cards-page .row > span:first-child::before {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 0;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    transform: translateY(-50%);
+}
+
+.cards-page .row > span:last-child {
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.cards-page .ok {
+    color: #15803d;
+}
+
+.cards-page .bad {
+    color: #dc2626;
+}
+
+
+/* =========================================
+   BOTTOM SHEET OVERLAY
+========================================= */
+
+.cards-page .sheet-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    padding: 24px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(15, 23, 42, 0.58);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    animation: overlayFadeIn 0.22s ease both;
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =========================================
+   CONTROL SHEET
+========================================= */
+
+.cards-page .sheet {
+    width: min(100%, 680px);
+    max-height: calc(100vh - 48px);
+
+    padding: 28px;
+
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 26px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    box-shadow:
+        0 32px 80px rgba(15, 23, 42, 0.3);
+
+    animation: sheetEnter 0.28s ease both;
+}
+
+@keyframes sheetEnter {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.cards-page .sheet-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 24px;
+    margin-bottom: 8px;
+}
+
+.cards-page .sheet-title {
+    color: #0f172a;
+
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.cards-page .sheet-sub {
+    margin-top: 5px;
+
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.cards-page .xbtn {
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+
+    background: #f8fafc;
+    color: #475569;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.cards-page .xbtn:hover {
+    background: #fee2e2;
+    color: #b91c1c;
+
+    transform: rotate(5deg);
+}
+
+
+/* =========================================
+   CONTROL BLOCKS
+========================================= */
+
+.cards-page .control-block {
+    margin-top: 20px;
+    padding: 20px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f8fafc
+        );
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.cards-page .control-block:hover {
+    border-color: #cbd5e1;
+
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.cards-page .control-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.cards-page .control-name {
+    color: #0f172a;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.cards-page .control-limit {
+    margin-top: 17px;
+
+    transition:
+        opacity 0.2s ease,
+        filter 0.2s ease;
+}
+
+.cards-page .control-limit.disabled {
+    opacity: 0.42;
+    filter: grayscale(0.4);
+}
+
+.cards-page .limit-value {
+    margin-bottom: 10px;
+
+    color: #1d4ed8;
+
+    font-size: 18px;
+    font-weight: 800;
+}
+
+
+/* =========================================
+   TOGGLE SWITCH
+========================================= */
+
+.cards-page .switch {
+    position: relative;
+
+    width: 48px;
+    height: 26px;
+
+    flex: 0 0 48px;
+
+    display: inline-block;
+}
+
+.cards-page .switch input {
+    width: 0;
+    height: 0;
+
+    opacity: 0;
+}
+
+.cards-page .slider {
+    position: absolute;
+    inset: 0;
+
+    border-radius: 999px;
+
+    background: #cbd5e1;
+
+    cursor: pointer;
+
+    transition: background-color 0.25s ease;
+}
+
+.cards-page .slider::before {
+    content: "";
+
+    position: absolute;
+    top: 3px;
+    left: 3px;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 2px 6px rgba(15, 23, 42, 0.24);
+
+    transition: transform 0.25s ease;
+}
+
+.cards-page .switch input:checked + .slider {
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
+}
+
+.cards-page .switch input:checked + .slider::before {
+    transform: translateX(22px);
+}
+
+.cards-page .switch input:focus-visible + .slider {
+    outline: 3px solid rgba(37, 99, 235, 0.2);
+    outline-offset: 3px;
+}
+
+
+/* =========================================
+   RANGE INPUT
+========================================= */
+
+.cards-page .control-limit input[type="range"] {
+    width: 100%;
+    height: 6px;
+
+    margin: 0;
+
+    border-radius: 999px;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: #dbeafe;
+
+    cursor: pointer;
+}
+
+.cards-page .control-limit input[type="range"]::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: #2563eb;
+
+    box-shadow:
+        0 2px 8px rgba(37, 99, 235, 0.35);
+
+    cursor: grab;
+}
+
+.cards-page .control-limit input[type="range"]::-webkit-slider-thumb:active {
+    cursor: grabbing;
+}
+
+.cards-page .control-limit input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    box-shadow:
+        0 2px 8px rgba(37, 99, 235, 0.35);
+
+    cursor: grab;
+}
+
+.cards-page .control-limit input[type="range"]:disabled {
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   SAVE BUTTON
+========================================= */
+
+.cards-page .savebtn {
+    width: 100%;
+
+    margin-top: 24px;
+    padding: 14px 20px;
+
+    border: none;
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+        );
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 24px rgba(37, 99, 235, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.cards-page .savebtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 30px rgba(37, 99, 235, 0.3);
+}
+
+.cards-page .savebtn:disabled {
+    cursor: not-allowed;
+    opacity: 0.62;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+    .cards-page {
+        padding: 28px 20px;
+    }
+
+    .cards-page .cards-header h2 {
+        font-size: 36px;
+    }
+
+    .cards-page .vcard {
+        width: min(100%, 480px);
+        height: 286px;
+    }
+
+    .cards-page .vcard-face {
+        padding: 25px;
+
+        border-radius: 24px;
+    }
+
+    .cards-page .brand-name {
+        font-size: 26px;
+    }
+
+    .cards-page .vcard-number {
+        font-size: 24px;
+    }
+
+    .cards-page .panel {
+        padding: 24px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 520px) {
+    .cards-page {
+        padding: 22px 14px;
+    }
+
+    .cards-page > button:first-child {
+        margin-bottom: 16px !important;
+    }
+
+    .cards-page .cards-header {
+        margin-bottom: 22px;
+    }
+
+    .cards-page .cards-header h2 {
+        font-size: 31px;
+    }
+
+    .cards-page .vcard {
+        height: 235px;
+        margin-bottom: 22px;
+    }
+
+    .cards-page .vcard-face {
+        padding: 20px;
+
+        border-radius: 21px;
+    }
+
+    .cards-page .brand-name {
+        font-size: 21px;
+    }
+
+    .cards-page .brand-tag {
+        font-size: 7px;
+    }
+
+    .cards-page .chip {
+        width: 50px;
+        height: 37px;
+
+        border-radius: 8px;
+    }
+
+    .cards-page .vcard-number {
+        margin-top: 10px;
+
+        font-size: 18px;
+        letter-spacing: 0.07em;
+    }
+
+    .cards-page .small {
+        font-size: 7px;
+    }
+
+    .cards-page .strong {
+        font-size: 12px;
+    }
+
+    .cards-page .tap-hint,
+    .cards-page .hint {
+        font-size: 8px;
+    }
+
+    .cards-page .magstripe {
+        width: calc(100% + 40px);
+        height: 44px;
+
+        margin-left: -20px;
+    }
+
+    .cards-page .cvv-box {
+        min-height: 43px;
+
+        padding: 8px 12px;
+    }
+
+    .cards-page .cvv-value {
+        font-size: 16px;
+    }
+
+    .cards-page .quick-actions {
+        margin-bottom: 24px;
+    }
+
+    .cards-page .pill {
+        width: 100%;
+        max-width: 260px;
+    }
+
+    .cards-page .panel {
+        padding: 20px;
+
+        border-radius: 20px;
+    }
+
+    .cards-page .panel h3 {
+        font-size: 18px;
+    }
+
+    .cards-page .row {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+    .cards-page .sheet-overlay {
+        padding: 0;
+
+        align-items: flex-end;
+    }
+
+    .cards-page .sheet {
+        width: 100%;
+        max-height: 92vh;
+
+        padding: 22px 18px 28px;
+
+        border-radius: 25px 25px 0 0;
+    }
+
+    .cards-page .sheet-title {
+        font-size: 19px;
+    }
+
+    .cards-page .sheet-sub {
+        font-size: 12px;
+    }
+
+    .cards-page .control-block {
+        padding: 17px;
+    }
+
+    .cards-page .savebtn {
+        padding: 13px 16px;
+    }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+    .cards-page .vcard {
+        height: 215px;
+    }
+
+    .cards-page .vcard-face {
+        padding: 17px;
+    }
+
+    .cards-page .brand-name {
+        font-size: 18px;
+    }
+
+    .cards-page .chip {
+        width: 44px;
+        height: 33px;
+    }
+
+    .cards-page .vcard-number {
+        font-size: 16px;
+    }
+
+    .cards-page .strong {
+        font-size: 11px;
+    }
+
+    .cards-page .tap-hint {
+        margin-top: 7px;
+
+        font-size: 7px;
+    }
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .cards-page *,
+    .cards-page *::before,
+    .cards-page *::after {
+        scroll-behavior: auto !important;
+
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: BankingSystem
+
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/Bankingsystem
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  cloud:
+    inetutils:
+      preferred-networks:
+        - 127
+
+      ignored-interfaces:
+        - eth.*
+        - docker.*
+        - veth.*
+        - br.*
+
+
+
+server:
+  port: 8900
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: password
+    key-store-type: PKCS12
+    key-alias: bankingapp
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+  instance:
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    prefer-ip-address: false
+    hostname: localhost
+    ip-address: 127.0.0.1
+    secure-port: 8900
+    instance-id: ${spring.application.name}:${server.port}
+
+logging:
+  level:
+    root: DEBUG

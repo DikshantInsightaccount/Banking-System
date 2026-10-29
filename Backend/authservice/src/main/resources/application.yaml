@@ -1,0 +1,92 @@
+spring:
+  application:
+    name: authservice
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/Bankingsystem
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  cloud:
+    inetutils:
+      preferred-networks:
+        - 127
+
+      ignored-interfaces:
+        - eth.*
+        - docker.*
+        - veth.*
+        - br.*
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: 3600000
+
+otp:
+  length: 4
+  expiry-seconds: 300
+
+server:
+  port: 8903
+  ssl:
+    key-store: src/main/resources/keystore.p12
+    key-store-password: password
+    key-store-type: PKCS12
+    key-alias: bankingapp
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+
+    secure-port: 8903
+
+    status-page-url: https://${eureka.instance.hostname}:${server.port}/actuator/info
+
+    health-check-url: https://${eureka.instance.hostname}:${server.port}/actuator/health
+
+    home-page-url: https://${eureka.instance.hostname}:${server.port}/
+
+webauthn:
+  rpId: "localhost"
+  rpName: "Banking App"
+  origin: "http://localhost:5173"   # frontend origin
+  timeoutMs: 60000
+  challengeTtlSeconds: 300
+
+logging:
+  level:
+    root: DEBUG

@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+}
+
+.auth-container,
+.login-page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-container {
+    align-items: stretch;
+}
+
+.auth-left {
+    flex: 1;
+    background: url("/bsnk-bg.jpg") center/cover no-repeat;
+}
+
+.auth-card,
+.login-card {
+    background: #fff;
+    padding: 40px;
+    width: min(100% - 32px, 650px);
+    margin: auto;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.login-page {
+    position: relative;
+    background: url("/bank-login-bg.png") center/cover no-repeat;
+}
+
+.login-card {
+    position: relative;
+    width: min(100% - 32px, 350px);
+}
+
+.auth-title {
+    margin-bottom: 6px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.auth-subtitle,
+.otp-text {
+    color: #666;
+    font-size: 14px;
+}
+
+.form-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-group.full,
+.primary-btn {
+    grid-column: span 2;
+}
+
+.form-group label {
+    color: #555;
+    font-size: 13px;
+}
+
+input,
+select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+button,
+.primary-btn {
+    padding: 12px;
+    border: 0;
+    border-radius: 40px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+}
+.login-btn {
+    padding: 12px;
+    border: 0;
+    border-radius: 20px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    width: 80%;
+    margin-top: 10px;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: .65;
+}
+
+.otp-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.register-link {
+    font-size: 13px;
+    text-align: center;
+}
+
+.register-link span {
+    color: #2563eb;
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .auth-container {
+        display: block;
+    }
+
+    .auth-left {
+        display: none;
+    }
+
+    .form-section {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full,
+    .primary-btn {
+        grid-column: auto;
+    }
+}

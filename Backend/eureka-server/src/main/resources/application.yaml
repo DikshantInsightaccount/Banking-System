@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: eureka-server
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false  #why false?:since all the other services are already registered with eureka, eureka need not know the list of where the other servoces are running
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+

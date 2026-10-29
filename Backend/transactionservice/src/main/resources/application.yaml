@@ -1,0 +1,90 @@
+spring:
+  application:
+    name: transactionservice
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3307}/${DB_NAME:Bankingsystem}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+
+      properties:
+        enable.idempotence: true
+        max.in.flight.requests.per.connection: 5
+
+  ssl:
+    bundle:
+      jks:
+        auth-service:
+          truststore:
+            location: src/main/resources/truststore.p12
+            password: password
+            type: PKCS12
+
+  cloud:
+    inetutils:
+      preferred-networks:
+        - 127
+
+      ignored-interfaces:
+        - eth.*
+        - docker.*
+        - veth.*
+        - br.*
+
+services:
+  auth-service:
+    url: ${AUTH_SERVICE_URL:https://localhost:8903}
+
+server:
+  port: 8902
+
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: password
+    key-store-type: PKCS12
+    key-alias: bankingapp
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+
+  instance:
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    prefer-ip-address: false
+    hostname: localhost
+    ip-address: 127.0.0.1
+    secure-port: 8902
+    instance-id: ${spring.application.name}:${server.port}
+
+banking:
+  kafka:
+    topics:
+      transfer-completed: banking.transfer.completed.v1
+
+logging:
+  level:
+    root: INFO
+    com.transactionservice.transactionservice.kafka: DEBUG
+    org.springframework.kafka: INFO
